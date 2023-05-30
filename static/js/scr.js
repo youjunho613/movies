@@ -1,22 +1,38 @@
-// 1) 바닐라 자바스크립트 사용하기
-// 2) TMDB 오픈 API를 이용하여 인기영화 데이터 get
-// 3) 영화정도 카드 리스트 UI 구현 >> 받아온 데이터 브라우저 화면에 카드 형태의 데이터로 구현
-// 카드에는 title , overview, poster_path, vote_average 4가지 정보가 필수
-// 카드 클릭 시 영화id alert 창 구현
+const options = {
+  method: "GET",
+  headers: {
+    accept: "application/json",
+    Authorization:
+      "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIwNWMyODE5MTJlMDUxNjI1MzhjZjU4ZDE0ZmIyN2YwNSIsInN1YiI6IjY0NzE5NmZmZGQ3MzFiMDBkZGYwM2NmYiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.LDAWT-o6qsyDDiM5x-Ek5-7ivl5Yje1cfIIVgdK6y2A",
+  },
+};
+
+const movieUrl =
+  "https://api.themoviedb.org/3/movie/top_rated?language=en-US&page=1";
+
+const fetchMovie = fetch(movieUrl, options)
+  .then((response) => response.json())
+  .catch((err) => console.error("에러 =>", err));
+// .then((response) => console.log("리스폰 =>", response.results));
+
 // 4) 영화 검색 UI 구현 input 창에 입력한 문자값이 포함되는 영화들만 화면에 보이도록 입력 후 검색버튼 클릭 시 실행되도록
-// 5) git hub 에 코드 업로드
-// 6) 아래 기재된 Javascript 문법 요소 이용하기
 
 // 7) 선택요구 사항
 // CSS) flex 사용하기, grid 사용하기
-// 웹사이트 랜딩 또는 새로고침 후 검색 입력란에 커서 자동 위치시키기
 // 대소문자 관계없이 검색 가능하게 하기
 // 키보드 enter키를 입력해도 검색버튼 클릭한 것과 동일하게 검색 실행시키기
 // 원하는 추가기능 무엇이라도 okay but 필수요구사항 먼저!
 
+// 6) 아래 기재된 Javascript 문법 요소 이용하기
 // 변순 선언은 let 과 const 만 쓸 것!
 // 화살표 함수 1개 이상 사용
-// 배열 메소드 forEach, map, filter, reduce, find 중 2개 이상 사용
+// 배열 메소드
+// forEach
+// map
+// filter
+// reduce
+// find 중 2개 이상 사용
+
 // DOM 제어하기 아래 API 목록 중 2개 이상 사용하기
 // 문서 객체 생성과 선택
 // document.createElement(tagName)                새로운 HTML 요소를 생성합니다.
@@ -46,19 +62,96 @@
 // window.alert(message)                          경고 메시지를 출력합니다.
 // window.confirm(message)                        확인 메시지를 출력하고 사용자의 답변에 따라 Boolean 값을 반환합니다.
 
-const options = {
-  method: "GET",
-  headers: {
-    accept: "application/json",
-    Authorization:
-      "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIwNWMyODE5MTJlMDUxNjI1MzhjZjU4ZDE0ZmIyN2YwNSIsInN1YiI6IjY0NzE5NmZmZGQ3MzFiMDBkZGYwM2NmYiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.LDAWT-o6qsyDDiM5x-Ek5-7ivl5Yje1cfIIVgdK6y2A",
-  },
-};
+function alertId(event) {
+  let trackingId = event.currentTarget.id;
+  alert(`영화 ID : ${trackingId}`);
+}
+// function alertId(event) {
+//   let trackingId = event.target.id;
+//   alert(`영화 ID : ${trackingId}`);
+// }
+//이벤트 버블링
 
-fetch(
-  "https://api.themoviedb.org/3/movie/top_rated?language=en-US&page=1",
-  options
-)
-  .then((response) => response.json())
-  .then((response) => console.log(response))
-  .catch((err) => console.error(err));
+function getMovie() {
+  fetch(movieUrl, options)
+    .then((response) => response.json())
+    .then((response) => {
+      let rows = response.results;
+      rows.forEach((a) => {
+        let title = a["title"];
+        let overview = a["overview"];
+        let poster_path = a["poster_path"];
+        let vote_average = a["vote_average"];
+        let id = a["id"];
+
+        // <div class="movie-card" id="${id}" onclick="alert('영화ID : ${id}')">
+        let movieCard = `
+                        <div class="movie-card" id="${id}" onclick="alertId(event)">
+                          <img
+                            src="https://image.tmdb.org/t/p/w500/${poster_path}"
+                            alt="${title}"
+                          />
+                          <h5 class="movie-title">${title}</h5>
+                          <p class="movie-overview">
+                            ${overview}
+                          </p>
+                          <p class="movie-vote">Rating: ${vote_average}</p>
+                        </div>`;
+        movieContainer.innerHTML += movieCard;
+      });
+    })
+    .catch((err) => console.error("에러 =>", err));
+}
+
+let a = document.querySelector("#searchBtn");
+console.log(a);
+
+function searchMovie() {
+  fetch(movieUrl, options)
+    .then((response) => response.json())
+    .then((response) => {
+      let rows = response.results;
+      rows.forEach((a) => {
+        let title = a["title"];
+        let overview = a["overview"];
+        let poster_path = a["poster_path"];
+        let vote_average = a["vote_average"];
+        let id = a["id"];
+
+        let movieCard = `
+                        <div class="movie-card" id="${id}" onclick="alertId(event)">
+                          <img
+                            src="https://image.tmdb.org/t/p/w500/${poster_path}"
+                            alt="${title}"
+                          />
+                          <h5 class="movie-title">${title}</h5>
+                          <p class="movie-overview">
+                            ${overview}
+                          </p>
+                          <p class="movie-vote">Rating: ${vote_average}</p>
+                        </div>`;
+        movieContainer.innerHTML += movieCard;
+      });
+    })
+    .catch((err) => console.error("에러 =>", err));
+}
+
+// function inputFocus() {
+//   let focus = document.getElementById("focus");
+//   focus.focus();
+// }
+// inputFocus();
+
+// function goInfinite() {
+//   setInterval(function () {
+//     inputFocus();
+//   }, 3000);
+// }
+// goInfinite(); // 3초 마다 inputFocus() 함수 반복
+
+getMovie();
+
+// commit 쓸 변경사항
+// fetch get 받은 데이터로 바닐라 자바스크립트를 이용하여 HTML 반영하기
+// add function inputFocus() || input 태그 autofocus 사용 = 새로 고침 했을 때 input 태그에 커서 자동 위치
+// alert ID 구성

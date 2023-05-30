@@ -5,6 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" type="text/css" href="../static/css/style.css" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <title>팝콘서치</title>
   </head>
   <body>
@@ -26,81 +27,26 @@
           <form class="gnb-search" action="">
             <fieldset>
               <legend>찾고 싶은 영화를 검색하세요</legend>
-              <input type="text" placeholder="  Movie title" />
-              <button>검색</button>
+              <input
+                type="text"
+                placeholder="  Movie title"
+                id="focus"
+                autofocus
+                id="searchBtn"
+                value="rr"
+              />
+              <button onclick="searchMovie()">검색</button>
             </fieldset>
           </form>
         </ul>
       </nav>
     </header>
-    <div class="grid-container">
-      <div class="movie-card" id="movieCard">
-        <img
-          id="movieImg"
-          src="https://image.tmdb.org/t/p/w500/3bhkrj58Vtu7enYsRolD1fZdja1.jpg"
-          alt="title"
-        />
-        <h5 id="movieTitle">The Godfather</h5>
-        <p id="movieReview">
-          Spanning the years 1945 to 1955, a chronicle of the fictional
-          Italian-American Corleone crime family. When organized crime family
-          patriarch, Vito Corleone barely survives an attempt on his life, his
-          youngest son, Michael steps in to take care of the would-be killers,
-          launching a campaign of bloody revenge.
-        </p>
-        <p id="movieRate">Rating: 8.7</p>
-      </div>
-      <div class="movie-card" id="movieCard">
-        <img
-          id="movieImg"
-          src="https://image.tmdb.org/t/p/w500/3bhkrj58Vtu7enYsRolD1fZdja1.jpg"
-          alt="title"
-        />
-        <h5 id="movieTitle">The Godfather</h5>
-        <p id="movieReview">
-          Spanning the years 1945 to 1955, a chronicle of the fictional
-          Italian-American Corleone crime family. When organized crime family
-          patriarch, Vito Corleone barely survives an attempt on his life, his
-          youngest son, Michael steps in to take care of the would-be killers,
-          launching a campaign of bloody revenge.
-        </p>
-        <p id="movieRate">Rating: 8.7</p>
-      </div>
-      <div class="movie-card" id="movieCard">
-        <img
-          id="movieImg"
-          src="https://image.tmdb.org/t/p/w500/3bhkrj58Vtu7enYsRolD1fZdja1.jpg"
-          alt="title"
-        />
-        <h5 id="movieTitle">The Godfather</h5>
-        <p id="movieReview">
-          Spanning the years 1945 to 1955, a chronicle of the fictional
-          Italian-American Corleone crime family. When organized crime family
-          patriarch, Vito Corleone barely survives an attempt on his life, his
-          youngest son, Michael steps in to take care of the would-be killers,
-          launching a campaign of bloody revenge.
-        </p>
-        <p id="movieRate">Rating: 8.7</p>
-      </div>
-      <div class="movie-card" id="movieCard">
-        <img
-          id="movieImg"
-          src="https://image.tmdb.org/t/p/w500/3bhkrj58Vtu7enYsRolD1fZdja1.jpg"
-          alt="title"
-        />
-        <h5 id="movieTitle">The Godfather</h5>
-        <p id="movieReview">
-          Spanning the years 1945 to 1955, a chronicle of the fictional
-          Italian-American Corleone crime family. When organized crime family
-          patriarch, Vito Corleone barely survives an attempt on his life, his
-          youngest son, Michael steps in to take care of the would-be killers,
-          launching a campaign of bloody revenge.
-        </p>
-        <p id="movieRate">Rating: 8.7</p>
-      </div>
-    </div>
+    <main>
+      <div class="grid-container" id="movieContainer"></div>
+    </main>
     <footer>
       <p>현재 페이지는 내일배움캠프 개인과제 페이지입니다.</p>
     </footer>
+    <script src="../static/js/scr.js"></script>
   </body>
 </html>
