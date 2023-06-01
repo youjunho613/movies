@@ -23,7 +23,8 @@
           <li>
             <a href="" class="gnb-favorite">내가 찜한 컨텐츠</a>
           </li> -->
-          <form class="gnb-search" action="">
+          <form class="gnb-search" onsubmit="searchFunc(event)">
+            <!-- form에 onsubmit을 작동하므로 굳이 addEventListener를 작성하지 않아도 작동 -->
             <fieldset>
               <legend>찾고 싶은 영화를 검색하세요</legend>
               <input
@@ -31,10 +32,8 @@
                 type="text"
                 placeholder=" Movie title"
                 value=""
-                autofocus
-                onkeypress="if( event.keyCode == 13){filter(event);}"
               />
-              <button onclick="filter(event)" type="button">검색</button>
+              <button id="searchBtn">검색</button>
             </fieldset>
           </form>
         </ul>
@@ -46,6 +45,6 @@
     <footer>
       <p>현재 페이지는 내일배움캠프 개인과제 페이지입니다.</p>
     </footer>
-    <script src="../static/js/scr.js"></script>
+    <script src="../static/js/scr.js" defer></script>
   </body>
 </html>
