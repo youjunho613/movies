@@ -5,7 +5,6 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" type="text/css" href="../static/css/style.css" />
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <title>팝콘서치</title>
   </head>
   <body>
@@ -28,14 +27,14 @@
             <fieldset>
               <legend>찾고 싶은 영화를 검색하세요</legend>
               <input
+                id="searchInput"
                 type="text"
-                placeholder="  Movie title"
-                id="focus"
+                placeholder=" Movie title"
+                value=""
                 autofocus
-                id="searchBtn"
-                value="rr"
+                onkeypress="if( event.keyCode == 13){filter(event);}"
               />
-              <button onclick="searchMovie()">검색</button>
+              <button onclick="filter(event)" type="button">검색</button>
             </fieldset>
           </form>
         </ul>

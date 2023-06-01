@@ -7,31 +7,27 @@ const options = {
   },
 };
 
-const movieUrl =
+let movieUrl =
   "https://api.themoviedb.org/3/movie/top_rated?language=en-US&page=1";
-
-const fetchMovie = fetch(movieUrl, options)
+fetch(movieUrl, options)
   .then((response) => response.json())
+  .then((response) => {
+    let fetchMovie = response.results;
+    getMovie(fetchMovie);
+  })
   .catch((err) => console.error("에러 =>", err));
-// .then((response) => console.log("리스폰 =>", response.results));
 
-// 4) 영화 검색 UI 구현 input 창에 입력한 문자값이 포함되는 영화들만 화면에 보이도록 입력 후 검색버튼 클릭 시 실행되도록
-
-// 7) 선택요구 사항
-// CSS) flex 사용하기, grid 사용하기
-// 대소문자 관계없이 검색 가능하게 하기
-// 키보드 enter키를 입력해도 검색버튼 클릭한 것과 동일하게 검색 실행시키기
 // 원하는 추가기능 무엇이라도 okay but 필수요구사항 먼저!
 
 // 6) 아래 기재된 Javascript 문법 요소 이용하기
-// 변순 선언은 let 과 const 만 쓸 것!
 // 화살표 함수 1개 이상 사용
 // 배열 메소드
-// forEach
+// forEach !!!!!!!!!!!!!!
 // map
 // filter
 // reduce
-// find 중 2개 이상 사용
+// find
+// 중 2개 이상 사용
 
 // DOM 제어하기 아래 API 목록 중 2개 이상 사용하기
 // 문서 객체 생성과 선택
@@ -39,10 +35,10 @@ const fetchMovie = fetch(movieUrl, options)
 // document.getElementById(id)                    id 속성을 기준으로 요소를 선택합니다.
 // document.getElementsByTagName(name)            태그 이름을 기준으로 요소를 선택합니다.
 // document.getElementsByClassName(name)          클래스 이름을 기준으로 요소를 선택합니다.
-// document.querySelector(selector)               CSS 선택자를 이용하여 요소를 선택합니다.
+// document.querySelector(selector)               CSS 선택자를 이용하여 요소를 선택합니다. !!!!!!!!!!!!!!
 // document.querySelectorAll(selector)            CSS 선택자를 이용하여 모든 요소를 선택합니다.
 // 문서 객체 조작
-// element.innerHTML                              해당 요소 내부의 HTML 코드를 변경합니다.
+// element.innerHTML                              해당 요소 내부의 HTML 코드를 변경합니다. !!!!!!!!!!!!!!
 // element.textContent                            해당 요소 내부의 텍스트를 변경합니다.
 // element.setAttribute(attr, value)              해당 요소의 속성 값을 변경합니다.
 // element.getAttribute(attr)                     해당 요소의 속성 값을 가져옵니다.
@@ -62,30 +58,28 @@ const fetchMovie = fetch(movieUrl, options)
 // window.alert(message)                          경고 메시지를 출력합니다.
 // window.confirm(message)                        확인 메시지를 출력하고 사용자의 답변에 따라 Boolean 값을 반환합니다.
 
+// 영화 카드 클릭 => alert "영화 id"
 function alertId(event) {
   let trackingId = event.currentTarget.id;
   alert(`영화 ID : ${trackingId}`);
 }
+// try.1 실패 이유 : 이벤트 버블링
 // function alertId(event) {
 //   let trackingId = event.target.id;
 //   alert(`영화 ID : ${trackingId}`);
 // }
-//이벤트 버블링
 
-function getMovie() {
-  fetch(movieUrl, options)
-    .then((response) => response.json())
-    .then((response) => {
-      let rows = response.results;
-      rows.forEach((a) => {
-        let title = a["title"];
-        let overview = a["overview"];
-        let poster_path = a["poster_path"];
-        let vote_average = a["vote_average"];
-        let id = a["id"];
+// 영화 API get => HTML에 붙여주기
+function getMovie(fetchMovie) {
+  let rows = fetchMovie;
+  rows.forEach((a) => {
+    let title = a["title"];
+    let overview = a["overview"];
+    let poster_path = a["poster_path"];
+    let vote_average = a["vote_average"];
+    let id = a["id"];
 
-        // <div class="movie-card" id="${id}" onclick="alert('영화ID : ${id}')">
-        let movieCard = `
+    let movieCard = `
                         <div class="movie-card" id="${id}" onclick="alertId(event)">
                           <img
                             src="https://image.tmdb.org/t/p/w500/${poster_path}"
@@ -97,51 +91,53 @@ function getMovie() {
                           </p>
                           <p class="movie-vote">Rating: ${vote_average}</p>
                         </div>`;
-        movieContainer.innerHTML += movieCard;
-      });
-    })
-    .catch((err) => console.error("에러 =>", err));
+    movieContainer.innerHTML += movieCard;
+  });
 }
 
-let a = document.querySelector("#searchBtn");
-console.log(a);
-
-function searchMovie() {
-  fetch(movieUrl, options)
-    .then((response) => response.json())
-    .then((response) => {
-      let rows = response.results;
-      rows.forEach((a) => {
-        let title = a["title"];
-        let overview = a["overview"];
-        let poster_path = a["poster_path"];
-        let vote_average = a["vote_average"];
-        let id = a["id"];
-
-        let movieCard = `
-                        <div class="movie-card" id="${id}" onclick="alertId(event)">
-                          <img
-                            src="https://image.tmdb.org/t/p/w500/${poster_path}"
-                            alt="${title}"
-                          />
-                          <h5 class="movie-title">${title}</h5>
-                          <p class="movie-overview">
-                            ${overview}
-                          </p>
-                          <p class="movie-vote">Rating: ${vote_average}</p>
-                        </div>`;
-        movieContainer.innerHTML += movieCard;
-      });
-    })
-    .catch((err) => console.error("에러 =>", err));
+function filter(event) {
+  event.preventDefault();
+  let write = document.getElementById("searchInput").value.toUpperCase();
+  let item = document.getElementsByClassName("movie-card");
+  for (let i = 0; i < item.length; i++) {
+    let title = item[i].getElementsByClassName("movie-title");
+    if (title[0].innerHTML.toUpperCase().indexOf(write) > -1) {
+      item[i].style.display = "flex";
+    } else {
+      item[i].style.display = "none";
+    }
+  }
 }
+// try.1 filter 정상작동
+// let abc = ["a", "b", "c", "d", "e", "abc"];
+// let result = abc.filter((item) => item.length > 2);
+// console.log(result);
 
+// try.2 input 태그 값과 일치하는지 확인
+// const searchFunc = (objId) => {
+//   searchId = searhInput.value;
+//   return objId.indexOf(searchId) !== -1;
+// };
+
+// try.3
+// function searchMovie() {
+//   let write = document.getElementById("searchBtn").value;
+//   let movies = document.getElementsByClassName("movie-card");
+//   return movies[0].indexOf(write) !== -1;
+// let result = movies.filter((movie) => movie == write);
+// console.log(movies[0]);
+// const search = document.getElementsByClassName("movie-title");
+// console.log(search);
+// const write = document.getElementById("searchBtn");
+// }
+
+// input 창 커서
 // function inputFocus() {
-//   let focus = document.getElementById("focus");
-//   focus.focus();
+//   document.getElementById("searchInput").focus();
 // }
 // inputFocus();
 
+// inputFocus()를 3초마다 반복
 // function goInfinite() {
 //   setInterval(function () {
 //     inputFocus();
@@ -149,9 +145,7 @@ function searchMovie() {
 // }
 // goInfinite(); // 3초 마다 inputFocus() 함수 반복
 
-getMovie();
-
 // commit 쓸 변경사항
-// fetch get 받은 데이터로 바닐라 자바스크립트를 이용하여 HTML 반영하기
-// add function inputFocus() || input 태그 autofocus 사용 = 새로 고침 했을 때 input 태그에 커서 자동 위치
-// alert ID 구성
+// 검색 기능 구현
+// 검색 할 때 엔터키로 동작하기
+// html input 커서 자동 위치하기 구현
