@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" type="text/css" href="../static/css/style.css" />
+    <link rel="stylesheet" type="text/css" href="style.css" />
     <title>팝콘서치</title>
   </head>
   <body>
@@ -26,25 +26,37 @@
           <form class="gnb-search" onsubmit="searchFunc(event)">
             <!-- form에 onsubmit을 작동하므로 굳이 addEventListener를 작성하지 않아도 작동 -->
             <fieldset>
-              <legend>찾고 싶은 영화를 검색하세요</legend>
+              <legend style="display: none">찾고 싶은 영화를 검색하세요</legend>
               <input
-                id="searchInput"
-                type="text"
-                placeholder=" Movie title"
-                value=""
+              id="searchInput"
+              type="text"
+              placeholder=" Movie title"
+              value=""
               />
               <button id="searchBtn">검색</button>
             </fieldset>
           </form>
+          <div>
+            <img src="icon_global.png" alt="언어">
+            <button onclick="changeEn()">English</button>
+            <button onclick="changeKo()">한국어</button>
+          </div>
         </ul>
+        <div class="change-page">
+          <a onclick="pageDown()" id="prevPage"><img src="icon_arrow.png" alt="이전 페이지"></a>
+          <input onkeyup="searchPage()" id="inputPage" value="1"></input>
+          <a onclick="pageUp()" id="nextPage"><img src="icon_arrow.png" alt="이전 페이지"></a>
+          <label for="number">1 - 500</label>
+        </div>
       </nav>
     </header>
     <main>
       <div class="grid-container" id="movieContainer"></div>
+      
     </main>
     <footer>
       <p>현재 페이지는 내일배움캠프 개인과제 페이지입니다.</p>
     </footer>
-    <script src="../static/js/scr.js" defer></script>
+    <script src="scr.js"></script>
   </body>
 </html>

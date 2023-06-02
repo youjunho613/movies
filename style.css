@@ -2,7 +2,6 @@
 @import url("https://fonts.googleapis.com/css2?family=Righteous&display=swap"); /* h1 font */
 @import url("https://fonts.googleapis.com/css2?family=Anton&display=swap"); /* .movie-title*/
 @import url("https://fonts.googleapis.com/css2?family=Abel&display=swap"); /* .movie-overview */
-
 * {
   font-size: 12px;
 }
@@ -29,8 +28,7 @@ header > h1 {
   display: flex;
   width: 48px;
   height: 48px;
-  /* color: transparent; */
-  background: transparent url("../img/icon_popcorn.png");
+  background: transparent url("icon_popcorn.png");
   background-position: center center;
   background-size: 100%;
   background-repeat: no-repeat;
@@ -40,7 +38,7 @@ header > h1 {
 
 .gnb {
   position: absolute;
-  width: 1000px;
+  width: 100%;
 }
 
 .gnb > ul {
@@ -69,15 +67,11 @@ header > h1 {
 } */
 
 /* 검색창 */
-.gnb-search > fieldset > legend {
-  display: none;
-}
-
 .gnb-search > fieldset > input {
   position: absolute;
   width: 200px;
   height: 40px;
-  right: 50px;
+  right: 150px;
   bottom: 5px;
   font-size: 15px;
   background-color: rgba(200, 200, 200, 0.8);
@@ -88,19 +82,73 @@ header > h1 {
   position: absolute;
   width: 45px;
   height: 100%;
-  right: 0;
+  right: 100px;
   bottom: 0;
   cursor: pointer;
   color: transparent;
-  background: transparent url("../img/icon_search.png");
+  background: transparent url("icon_search.png");
   background-size: 100%;
   background-repeat: no-repeat;
   border: 0;
   padding: 0;
 }
 
+ul div {
+  display: flex;
+  align-items: center;
+  position: absolute;
+  left: 50px;
+  bottom: 5px;
+}
+
+ul div button {
+  font-size: 15px;
+  margin: 0px 5px;
+  border: none;
+  background-color: transparent;
+  font-size: 18px;
+  font-family: "Abel", sans-serif;
+}
+
+.change-page {
+  display: flex;
+  align-items: center;
+  position: absolute;
+  left: 50%;
+  translate: -50% 0;
+  margin: 50px 0;
+}
+
+nav div a,
+ul div button {
+  cursor: pointer;
+}
+
+nav div input,
+ul div button {
+  height: 30px;
+}
+
+nav div a img,
+ul div img {
+  width: 40px;
+  margin: 0 10px;
+}
+
+nav div :nth-child(3) img {
+  transform: scaleX(-1);
+}
+
+nav div label {
+  position: absolute;
+  font-size: 12px;
+  left: 50%;
+  translate: -50% 0;
+  margin: 50px 0 0 0;
+}
+
 .grid-container {
-  margin-top: 100px;
+  margin-top: 120px;
   display: grid;
   justify-items: center;
   grid-template-columns: repeat(4, 1fr);
@@ -175,47 +223,16 @@ header > h1 {
 @media (max-width: 1270px) {
   .grid-container {
     grid-template-columns: repeat(2, 1fr);
-    row-gap: 50px;
-    margin-top: 70px;
-  }
-  .movie-card {
-    width: 300px;
-    margin: 0 auto;
-  }
-  header {
-    flex-direction: column;
+    row-gap: 10px;
+    margin-top: 120px;
   }
 
-  .gnb {
-    position: relative;
-    width: 100%;
-  }
-
-  .gnb-search > fieldset {
-    display: flex;
-    justify-content: center;
-    height: 70px;
-    margin: 20px 0 0 0;
-  }
   .gnb-search > fieldset > input {
-    position: relative;
-    width: 50%;
-    height: 50px;
-    margin: auto 0 auto 0;
+    right: 100px;
   }
 
   .gnb-search > fieldset > button {
-    position: relative;
-    width: 50px;
-    cursor: pointer;
-  }
-}
-
-@media (max-width: 860px) {
-  .grid-container {
-    grid-template-columns: repeat(1, 1fr);
-    row-gap: 20px;
-    margin-top: 30px;
+    right: 50px;
   }
 }
 
