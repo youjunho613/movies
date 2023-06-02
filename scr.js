@@ -7,62 +7,77 @@ const options = {
   },
 };
 
-let movieUrl =
-  "https://api.themoviedb.org/3/movie/top_rated?language=en-US&page=1";
-let inputPage = Number(document.getElementById("inputPage").value);
+let language = "ko";
+let page = 1;
+
+// let movieUrl =
+//   "https://api.themoviedb.org/3/movie/top_rated?language=en-US&page=1";
 
 const changeKo = () => {
-  return (movieUrl = movieUrl.replace("en", "ko")), getMovies();
+  language = "ko";
+  getMovies();
+  // return (movieUrl = movieUrl.replace("en", "ko")), getMovies();
 };
 
 const changeEn = () => {
-  return (movieUrl = movieUrl.replace("ko", "en")), getMovies();
+  language = "en";
+  getMovies();
+  // return (movieUrl = movieUrl.replace("ko", "en")), getMovies();
 };
+
+// const snycInputValue = (value) => {
+//   document.getElementById("inputPage").value = value;
+// };
 
 const pageUp = () => {
-  if (inputPage < 500) {
-    inputPage++;
-    movieUrl = movieUrl.substring(0, 65) + inputPage;
-    return (
-      getMovies(), (document.getElementById("inputPage").value = inputPage)
-    );
-  }
+  if (page < 500) page += 1;
+  getMovies();
+  // snycInputValue(page);
 };
+const pageDown = () => {
+  if (page > 0) page -= 1;
+  getMovies();
+  // snycInputValue(page);
+};
+// if (inputPage < 500) {
+//   inputPage++;
+//   movieUrl = movieUrl.substring(0, 65) + inputPage;
+//   return (
+//     getMovies(), (document.getElementById("inputPage").value = inputPage)
+//   );
+// }
 
 const searchPage = () => {
-  movieUrl =
-    movieUrl.substring(0, 65) + document.getElementById("inputPage").value;
-  if (1 <= document.getElementById("inputPage").value <= 500) {
-    return setTimeout(function () {
-      getMovies(), (inputPage = document.getElementById("inputPage").value);
-    }, 1000);
-  }
-  // else if (
-  //   document.getElementById("inputPage").value < 1 &&
-  //   document.getElementById("inputPage").value > 500
-  // ) {
-  //   return setTimeout(function () {
-  //     document.getElementById("inputPage").value = 1;
-  //     movieUrl =
-  //       movieUrl.substring(0, 65) + document.getElementById("inputPage").value;
-  //     getMovies();
-  //   }, 1000);
+  // let inputPage = Number(document.getElementById("inputPage").value);
+  let customPage = document.getElementById("inputPage").value;
+
+  page = customPage;
+  getMovies();
+
+  // movieUrl =
+  //   movieUrl.substring(0, 65) + document.getElementById("inputPage").value;
+  // if (1 <= document.getElementById("inputPage").value <= 500) {
+  // return setTimeout(function () {
+  //   getMovies(), (inputPage = document.getElementById("inputPage").value);
+  // }, 1000);
   // }
+  // Debounce & Throttle
 };
 
-const pageDown = () => {
-  if (inputPage > 1) {
-    inputPage--;
-    movieUrl = movieUrl.substring(0, 65) + inputPage;
-    return (
-      getMovies(), (document.getElementById("inputPage").value = inputPage)
-    );
-  }
-};
+// if (inputPage > 1) {
+//   inputPage--;
+//   movieUrl = movieUrl.substring(0, 65) + inputPage;
+//   return (
+//     getMovies(), (document.getElementById("inputPage").value = inputPage)
+//   );
+// }
 
 // fetch 값 Promise 에 저장
 const fetchMovies = async () => {
-  const response = await fetch(movieUrl, options);
+  const response = await fetch(
+    `https://api.themoviedb.org/3/movie/top_rated?language=${language}-US&page=${page}`,
+    options
+  );
   const jsonData = await response.json();
   return jsonData.results;
 };
@@ -80,13 +95,26 @@ const getMovies = async () => {
         <p class="movie-vote">Rating: ${vote_average}</p></div>`;
     movieContainer.innerHTML += movieCard;
   });
+  document.getElementById("inputPage").value = page;
 };
 getMovies();
+
+// else if (
+//   document.getElementById("inputPage").value < 1 &&
+//   document.getElementById("inputPage").value > 500
+// ) {
+//   return setTimeout(function () {
+//     document.getElementById("inputPage").value = 1;
+//     movieUrl =
+//       movieUrl.substring(0, 65) + document.getElementById("inputPage").value;
+//     getMovies();
+//   }, 1000);
+// }
+// };
 
 // 검색 함수
 const searchFunc = (event) => {
   event.preventDefault();
-  console.log(searchBtn);
   let write = document.getElementById("searchInput").value.toUpperCase();
   let item = document.getElementsByClassName("movie-card");
   for (let i = 0; i < item.length; i++) {
